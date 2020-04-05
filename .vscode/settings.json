@@ -1,6 +1,0 @@
-{
-    "python.pythonPath": "/home/nanoy/.local/share/virtualenvs/blog-zmq-1Ua4QMYK/bin/python",
-    "editor.formatOnSave": true,
-    "python.formatting.provider": "black",
-    "autoDocstring.docstringFormat": "google"
-}
