@@ -29,6 +29,12 @@ class Controller:
     MAX_VALUE = 40
 
     def __init__(self, n, task_max_size):
+        """Initialize controller.
+        
+        Args:
+            n (int): number of temperatures to generate
+            task_max_size (int): max number of temperatures to send in one task
+        """
         self.context = zmq.Context()
         self.socket = self.context.socket(zmq.PUSH)
         self.temperatures = [
@@ -38,10 +44,14 @@ class Controller:
         self.task_max_size = task_max_size
 
     def connect(self):
+        """Connect socket.
+        """
         self.socket.bind("tcp://*:5555")
         time.sleep(0.2)
 
     def send_tasks(self):
+        """Send tasks to the workers.
+        """
         n = math.ceil(len(self.temperatures) / self.task_max_size)
         tasks = [self.temperatures[i::n] for i in range(n)]
         for task in tasks:

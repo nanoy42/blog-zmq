@@ -22,6 +22,11 @@ import zmq
 
 class Finalizer:
     def __init__(self, n):
+        """Init the finalizer.
+        
+        Args:
+            n (int): number of temperatures
+        """
         self.context = zmq.Context()
         self.socket = self.context.socket(zmq.PULL)
         self.expected = n
@@ -29,9 +34,13 @@ class Finalizer:
         self.result = 0
 
     def connect(self):
+        """Connect socket.
+        """
         self.socket.bind("tcp://*:5556")
 
     def start(self):
+        """Wait for all tasks to finish and print the result.
+        """
         while self.expected != self.received:
             msg = self.socket.recv()
             response = msgpack.unpackb(msg)

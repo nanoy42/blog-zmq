@@ -20,15 +20,21 @@ import zmq
 
 class Worker:
     def __init__(self):
+        """Initialize the worker.
+        """
         self.context = zmq.Context()
         self.recv_socket = self.context.socket(zmq.PULL)
         self.send_socket = self.context.socket(zmq.PUSH)
 
     def connect(self):
+        """Connect the sockets.
+        """
         self.recv_socket.connect("tcp://localhost:5555")
         self.send_socket.connect("tcp://localhost:5556")
 
     def start(self):
+        """Process any task, indefinitly.
+        """
         while True:
             msg = self.recv_socket.recv()
             task = msgpack.unpackb(msg)
@@ -38,6 +44,14 @@ class Worker:
             )
 
     def exectute_task(self, task):
+        """Execute the task
+        
+        Args:
+            task (dict): task as send by the controller
+        
+        Returns:
+            int: number of tasks above the threshold
+        """
         res = 0
         threshold = task["threshold"]
         for value in task["task"]:
