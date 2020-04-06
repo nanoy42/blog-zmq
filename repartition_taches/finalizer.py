@@ -1,5 +1,7 @@
-import zmq
+import argparse
+
 import msgpack
+import zmq
 
 
 class Finalizer:
@@ -27,6 +29,10 @@ class Finalizer:
 
 
 if __name__ == "__main__":
-    finalizer = Finalizer(25000)
+    parser = argparse.ArgumentParser()
+    parser.add_argument("n", help="number of temperatures")
+    args = parser.parse_args()
+
+    finalizer = Finalizer(int(args.n))
     finalizer.connect()
     finalizer.start()
